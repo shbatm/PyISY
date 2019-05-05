@@ -1,11 +1,15 @@
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
     name='PyISY_beta',
-    version='1.1.2',
+    version='1.1.3',
     license='Apache License 2.0',
-    url='http://automic.us/projects/pyisy',
-    download_url='https://github.com/shbatm/pyisy/tarball/1.1.2',
+    url='https://github.com/shbatm/PyISY/tree/PyISY_beta',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author='Ryan Kraus',
     author_email='automicus@gmail.com',
     description='Python module to talk to ISY994 from UDI.',
