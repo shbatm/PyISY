@@ -7,11 +7,14 @@ except ImportError:
     from urllib.parse import quote
     from urllib.parse import urlencode
 import requests
+import time
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.poolmanager import PoolManager
 import ssl
 import sys
 from xml.dom import minidom
+
+MAX_RETRIES=5
 
 class Connection(object):
 
@@ -23,6 +26,8 @@ class Connection(object):
         self._username = username
         self._password = password
 
+        self.req_session = requests.Session()
+
         # setup proper HTTPS handling for the ISY
         if use_https and can_https(self.parent.log, tls_ver):
             self._use_https = True
@@ -31,7 +36,6 @@ class Connection(object):
             requests.packages.urllib3.disable_warnings()
 
             # ISY uses TLS1 and not SSL
-            req_session = requests.Session()
             req_session.mount(self.compileURL(None), TLSHttpAdapter(tls_ver))
         else:
             self._use_https = False
@@ -64,12 +68,12 @@ class Connection(object):
 
         return url
 
-    def request(self, url, ok404=False):
+    def request(self, url, retries=0, ok404=False):
         if self.parent.log is not None:
             self.parent.log.info('ISY Request: ' + url)
 
         try:
-            r = requests.get(url, auth=(self._username, self._password),
+            r = self.req_session.get(url, auth=(self._username, self._password),
                     timeout=10, verify=False)
 
         except requests.ConnectionError as err:
@@ -93,8 +97,22 @@ class Connection(object):
             self.parent.log.debug('ISY Response Recieved')
             return ''
         else:
-            self.parent.log.warning('Bad ISY Request: ' + url)
-            return None
+            self.parent.log.warning('Bad ISY Request: {} {}: '
+                                    'retry #{}'.format(url,
+                                    r.status_code, retries))
+
+            # sleep for one second to allow the ISY to catch up
+            time.sleep(1)
+
+            if retries < MAX_RETRIES:
+                # recurse to try again
+                return self.request(url, retries+1, ok404=False)
+            else:
+                # fail for good
+                self.parent.log.error('Bad ISY Request: {} {}: '
+                                      'Failed after {} retries'.format(url,
+                                      r.status_code, retries))
+                return None
 
     # PING
     # This is a dummy command that does not exist in the REST API
