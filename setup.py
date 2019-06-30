@@ -6,7 +6,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='PyISY_beta',
-    version='1.1.6',
+    version='1.1.7',
     license='Apache License 2.0',
     url='https://github.com/shbatm/PyISY/tree/PyISY_beta',
     long_description=README,
