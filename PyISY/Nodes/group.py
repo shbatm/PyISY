@@ -25,13 +25,12 @@ class Group(NodeBase):
         """Initialize a Group class."""
         self._members = members or []
         self._controllers = controllers or []
+        super().__init__(nodes, nid, name)
 
         # listen for changes in children
         self._members_handlers = [
             self._nodes[m].status.subscribe('changed', self.update)
             for m in self.members]
-
-        super().__init__(nodes, nid, name)
 
     def __del__(self):
         """Cleanup event handlers before deleting."""

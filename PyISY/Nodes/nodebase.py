@@ -5,7 +5,6 @@ from VarEvents import Property
 
 from ..constants import COMMAND_FRIENDLY_NAME, UPDATE_INTERVAL, XML_PARSE_ERROR
 from ..helpers import value_from_xml
-from .group import Group
 
 
 class NodeBase:
@@ -70,15 +69,15 @@ class NodeBase:
 
     def off(self):
         """Turn off the nodes/group in the ISY."""
-        self.send_cmd('DOF')
+        return self.send_cmd('DOF')
 
-    def on(self, val=255):
+    def on(self, val=None):
         """
         Turn the node on.
 
         |  [optional] val: The value brightness value (0-255) for the node.
         """
-        if val is None or isinstance(self, Group):
+        if val is None or type(self).__name__ == "Group":
             cmd = 'DON'
         elif int(val) > 0:
             cmd = 'DON'
@@ -97,7 +96,8 @@ class NodeBase:
         value = str(val) if val is not None else None
         req = ['nodes', str(self._id), 'cmd', cmd]
         if value:
-            req.append(val)
+            req.append(value)
+        self.isy.log.warning("COMMAND: %s", req)
         req_url = self.isy.conn.compile_url(req)
         if not self.isy.conn.request(req_url):
             self.isy.log.warning('ISY could not send %s command to %s.',
