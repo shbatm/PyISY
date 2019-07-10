@@ -6,10 +6,10 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name='PyISY_beta',
-    version='1.1.8',
+    name='PyISY',
+    version='1.2.0',
     license='Apache License 2.0',
-    url='https://github.com/shbatm/PyISY/tree/PyISY_beta',
+    url='http://automic.us/projects/pyisy',
     long_description=README,
     long_description_content_type="text/markdown",
     author='Ryan Kraus',
