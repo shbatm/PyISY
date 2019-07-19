@@ -81,11 +81,13 @@ class EventStream:
         elif cntrl == '_11':  # WEATHER UPDATE
             if self.isy.configuration['Weather Information']:
                 self.isy.climate._upmsg(xmldoc)
-        elif cntrl == '_1':  # VARIABLE OR PROGRAM UPDATE
+        elif cntrl == '_1':  # Trigger Update
             if '<var' in msg:  # VARIABLE
                 self.isy.variables._upmsg(xmldoc)
             elif '<id>' in msg:  # PROGRAM
                 self.isy.programs._upmsg(xmldoc)
+            elif '<node>' in msg and '[' in msg:  # Node Server Update
+                pass  # This is most likely a duplicate node update.
             else:  # SOMETHING HAPPENED WITH A PROGRAM FOLDER
                 # but they ISY didn't tell us what, so...
                 self.isy.programs.update()
@@ -121,14 +123,6 @@ class EventStream:
 
     def read(self):
         """Read data from the socket."""
-        if self._reader is None:
-            raise NotImplementedError('Function not available while '
-                                      'socket is closed.')
-        if not self.data.get('tls'):
-            try:
-                return self._reader.readline()
-            except socket.error:
-                return ''
         loop = True
         output = ''
         while loop:
@@ -224,18 +218,11 @@ class EventStream:
                 # poll socket for new data
                 inready, _, _ = select.select([self.socket], [], [], POLL_TIME)
                 if self.socket in inready:
-                    if not self.data.get('tls'):
-                        data = self.read()
+                    for data in self.read():
                         if data.startswith('<?xml'):
                             data = data.strip(). \
-                                    replace('POST reuse HTTP/1.1', '')
+                                        replace('POST reuse HTTP/1.1', '')
                             self._routemsg(data)
-                    else:
-                        for data in self.read():
-                            if data.startswith('<?xml'):
-                                data = data.strip(). \
-                                            replace('POST reuse HTTP/1.1', '')
-                                self._routemsg(data)
 
 
 class EventEmitter:
