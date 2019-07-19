@@ -9,7 +9,8 @@ from threading import Thread
 from xml.dom import minidom
 
 from . import strings
-from .constants import ATTR_ACTION, ATTR_CONTROL, POLL_TIME, STATE_PROPERTY
+from .constants import (ATTR_ACTION, ATTR_CONTROL, POLL_TIME,
+                        SOCKET_BUFFER_SIZE, STATE_PROPERTY)
 from .helpers import attr_from_xml, value_from_xml
 
 
@@ -20,7 +21,6 @@ class EventStream:
         """Initializze the EventStream class."""
         self.isy = isy
         self._running = False
-        self._reader = None
         self._writer = None
         self._thread = None
         self._subscribed = False
@@ -127,16 +127,17 @@ class EventStream:
         output = ''
         while loop:
             try:
-                new_data = self.socket.recv(4096)
+                new_data = self.socket.recv(SOCKET_BUFFER_SIZE)
             except ssl.SSLWantReadError:
                 pass
             except socket.error:
                 loop = False
             else:
+                siz = len(new_data)
                 if sys.version_info.major == 3:
                     new_data = new_data.decode('utf-8')
                 output += new_data
-                if len(new_data) * 8 < 4096:
+                if siz < SOCKET_BUFFER_SIZE:
                     loop = False
 
         return output.split('\n')
@@ -163,7 +164,6 @@ class EventStream:
                     self._on_lost_function()
                 return False
             self.socket.setblocking(0)
-            self._reader = self.socket.makefile("r")
             self._writer = self.socket.makefile("w")
             self._connected = True
             return True
