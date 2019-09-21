@@ -9,6 +9,7 @@ ISY_EPOCH_OFFSET = 36524
 STANDARD_TIME = "%Y/%m/%d %I:%M:%S %p"
 MILITARY_TIME = "%Y/%m/%d %H:%M:%S"
 XML_STRPTIME = "%Y%m%d %H:%M:%S"
+XML_STRPTIME_YY = "%y%m%d %H:%M:%S"
 
 POLL_TIME = 5
 SOCKET_BUFFER_SIZE = 4096

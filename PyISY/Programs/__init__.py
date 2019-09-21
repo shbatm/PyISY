@@ -9,7 +9,7 @@ from ..constants import (
     ATTR_NAME,
     EMPTY_TIME,
     XML_PARSE_ERROR,
-    XML_STRPTIME,
+    XML_STRPTIME_YY,
     STANDARD_TIME,
     MILITARY_TIME,
 )
@@ -161,15 +161,15 @@ class Programs:
             if "<r>" in xml:
                 plastrun = value_from_xml(xmldoc, "r")
                 plastrun = datetime.strptime(
-                    plastrun, XML_STRPTIME
-                )  # TODO: Should Be military time w no slashes
+                    plastrun, XML_STRPTIME_YY
+                )
                 pobj.lastRun.update(plastrun, force=True, silent=True)
 
             if "<f>" in xml:
                 plastfin = value_from_xml(xmldoc, "f")
                 plastfin = datetime.strptime(
-                    plastfin, XML_STRPTIME
-                )  # TODO: Should Be military time w no slashes
+                    plastfin, XML_STRPTIME_YY
+                )
                 pobj.lastFinished.update(plastfin, force=True, silent=True)
 
             if "<on />" in xml or "<off />" in xml:
