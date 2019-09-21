@@ -2,7 +2,13 @@
 import datetime
 
 UPDATE_INTERVAL = 0.5
+
+# Time Constants / Strings
 EMPTY_TIME = datetime.datetime(year=1, month=1, day=1)
+ISY_EPOCH_OFFSET = 36524
+STANDARD_TIME = "%Y/%m/%d %I:%M:%S %p"
+MILITARY_TIME = "%Y/%m/%d %H:%M:%S"
+XML_STRPTIME = "%Y%m%d %H:%M:%S"
 
 POLL_TIME = 5
 SOCKET_BUFFER_SIZE = 4096
