@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="PyISY_beta",
-    version_format='{tag}.dev{commitcount}+{gitsha}',  # Dev Versions
+    version_format='{tag}.dev{commitcount}',  # Dev Versions -{gitsha}
     # version_format='{tag}',  # Release Version
     license='Apache License 2.0',
     url='http://automic.us/projects/pyisy',
