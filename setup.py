@@ -7,7 +7,8 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="PyISY_beta",
-    version='1.1.19',
+    version_format='{tag}.dev{commitcount}+{gitsha}',  # Dev Versions
+    # version_format='{tag}',  # Release Version
     license='Apache License 2.0',
     url='http://automic.us/projects/pyisy',
     long_description=README,
@@ -19,6 +20,7 @@ setup(
     zip_safe=False,
     include_package_data=True,
     platforms='any',
+    setup_requires=['setuptools-git-version'],
     install_requires=['requests', 'VarEvents'],
     keywords=['home automation', 'isy', 'isy994', 'isy-994', 'UDI'],
     classifiers=[
@@ -26,7 +28,6 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]
