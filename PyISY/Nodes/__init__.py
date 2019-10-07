@@ -222,7 +222,7 @@ class Nodes:
                 parent_nid = value_from_xml(feature, "pnode")
                 dev_type = value_from_xml(feature, ATTR_TYPE)
                 node_def_id = attr_from_element(feature, "nodeDefId")
-                enabled = value_from_xml(feature, "enabled")
+                enabled = value_from_xml(feature, "enabled") == 'true'
 
                 # Get Z-Wave Device Type Category
                 devtype_cat = None
