@@ -336,6 +336,7 @@ class Nodes:
                     fun = None
 
         if fun:
+            output = None
             try:
                 output = fun(val)
             except:
@@ -343,7 +344,7 @@ class Nodes:
 
             if output:
                 return output
-        raise KeyError("Unrecognized Key: [" + val + "]")
+        raise KeyError("Unrecognized Key: [{!s}]".format(val))
 
     def __setitem__(self, item, value):
         """Set item value."""
