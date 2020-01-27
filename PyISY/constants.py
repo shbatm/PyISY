@@ -145,6 +145,22 @@ COMMAND_FRIENDLY_NAME = {
     "FDSTOP": "fade_stop"
 }
 
+COMMAND_PROP_IGNORE = [
+    "DON",
+    "DFON",
+    "DOF",
+    "DFOF",
+    "ST",
+    "BEEP",
+    "RESET",
+    "X10",
+    "BMAN",
+    "SMAN",
+    "BRT",
+    "DIM",
+    "BUSY",
+]
+
 COMMAND_NAME = {val: key for key, val in COMMAND_FRIENDLY_NAME.items()}
 
 UOM_FRIENDLY_NAME = {

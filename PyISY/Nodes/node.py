@@ -56,7 +56,6 @@ class Node(NodeBase):
         enabled=None,
     ):
         """Initialize a Node class."""
-        self._aux_properties = aux_properties if aux_properties is not None else {}
         self._devtype_cat = devtype_cat
         self._node_def_id = node_def_id
         self._type = dev_type
@@ -70,11 +69,6 @@ class Node(NodeBase):
         )
         self.controlEvents = EventEmitter()
         super().__init__(nodes, nid, name)
-
-    @property
-    def aux_properties(self):
-        """Return the aux properties that were in the Node Definition."""
-        return self._aux_properties
 
     @property
     def devtype_cat(self):
