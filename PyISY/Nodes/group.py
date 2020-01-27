@@ -25,6 +25,7 @@ class Group(NodeBase):
         """Initialize a Group class."""
         self._members = members or []
         self._controllers = controllers or []
+        self._aux_properties = {}
         super().__init__(nodes, nid, name)
 
         # listen for changes in children
@@ -69,13 +70,20 @@ class Group(NodeBase):
 
     def update(self, wait_time=0, hint=None, xmldoc=None):
         """Update the group with values from the controller."""
-        for node in self.members:
-            if (
-                self._nodes[node].status is None
-                or self._nodes[node].status == VALUE_UNKNOWN
-            ):
-                continue
-            elif int(self._nodes[node].status) > 0:
-                self.status.update(255, force=True, silent=True)
-                return
+        valid_nodes = [node for node in self.members if (
+                self._nodes[node].status is not None
+                and self._nodes[node].status != VALUE_UNKNOWN
+            )]
+        on_nodes = [node for node in valid_nodes if int(self._nodes[node].status) > 0]
+
+        if on_nodes:
+            self.status.update(255, force=True, silent=True)
+            self._aux_properties = { "all_on": len(on_nodes) == len(self.members) }
+            return
         self.status.update(0, force=True, silent=True)
+        self._aux_properties = { "all_on": False }
+
+    @property
+    def aux_properties(self):
+        """Return the aux properties that were in the Node Definition."""
+        return self._aux_properties
