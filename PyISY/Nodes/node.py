@@ -96,7 +96,7 @@ class Node(NodeBase):
         return self._uom
 
     @uom.setter
-    def uom(self,value):
+    def uom(self, value):
         """Set the unit of measurement if not provided initially."""
         self._uom = value
 
@@ -106,7 +106,7 @@ class Node(NodeBase):
         return self._prec
 
     @prec.setter
-    def prec(self,value):
+    def prec(self, value):
         """Set the unit of measurement if not provided initially."""
         self._prec = value
 
@@ -224,5 +224,5 @@ class Node(NodeBase):
     def get_setpoint_uom(self, prop):
         """Get the Unit of Measurement for Z-Wave Climate Settings."""
         if self._devtype_cat and self._aux_properties.get(prop):
-            return self._aux_properties.get(prop).get('uom')
+            return self._aux_properties.get(prop).get("uom")
         return None

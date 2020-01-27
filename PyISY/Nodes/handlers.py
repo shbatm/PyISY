@@ -42,7 +42,9 @@ class EventResult(dict):
 
     def __init__(self, event, nval=None, prec=None, uom=None, formatted=None):
         """Initialize an event result."""
-        super().__init__(self, event=event, nval=nval, prec=prec, uom=uom, formatted=formatted)
+        super().__init__(
+            self, event=event, nval=nval, prec=prec, uom=uom, formatted=formatted
+        )
         self._event = event
         self._nval = nval
         self._prec = prec

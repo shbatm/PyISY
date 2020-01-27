@@ -142,7 +142,7 @@ COMMAND_FRIENDLY_NAME = {
     "SECMD": "secure",
     "FDUP": "fade_up",
     "FDDOWN": "fade_down",
-    "FDSTOP": "fade_stop"
+    "FDSTOP": "fade_stop",
 }
 
 COMMAND_PROP_IGNORE = [
