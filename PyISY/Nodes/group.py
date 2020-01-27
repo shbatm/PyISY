@@ -88,5 +88,5 @@ class Group(NodeBase):
             self.group_all_on.update(len(on_nodes) == len(valid_nodes), silent=True)
             self.status.update(255, force=True, silent=True)
             return
-        self.group_all_on.update(False, silent=True)
         self.status.update(0, force=True, silent=True)
+        self.group_all_on.update(False, silent=True)
