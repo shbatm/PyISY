@@ -115,7 +115,7 @@ class NodeBase:
         )
 
         # Calculate hint to use if status is updated
-        hint = None
+        hint = self.status._val
         if cmd in ["DON", "DFON"]:
             if val is not None:
                 hint = val
@@ -123,8 +123,7 @@ class NodeBase:
                 hint = self._aux_properties["OL"].get("value")
             else:
                 hint = 255
-        if cmd in ["DOF", "DFOF"]:
+        elif cmd in ["DOF", "DFOF"]:
             hint = 0
-        self.isy.log.info("ISY using hint value %s %s.", hint, self._aux_properties)
         self.update(UPDATE_INTERVAL, hint=hint)
         return True
