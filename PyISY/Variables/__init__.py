@@ -11,8 +11,8 @@ from ..constants import (
     ATTR_TYPE,
     ATTR_VAL,
     ATTR_VAR,
-    XML_STRPTIME,
     XML_PARSE_ERROR,
+    XML_STRPTIME,
 )
 from ..helpers import attr_from_element, attr_from_xml, value_from_xml
 from .variable import Variable

@@ -2,8 +2,8 @@
 from time import sleep
 from xml.dom import minidom
 
-from .constants import XML_PARSE_ERROR, EMPTY_TIME
-from .helpers import value_from_xml, ntp_to_system_time
+from .constants import EMPTY_TIME, XML_PARSE_ERROR
+from .helpers import ntp_to_system_time, value_from_xml
 
 
 class Clock:
