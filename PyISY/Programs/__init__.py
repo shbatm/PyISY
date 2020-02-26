@@ -8,11 +8,11 @@ from ..constants import (
     ATTR_ID,
     ATTR_NAME,
     ATTR_PROGRAM,
-    EMPTY_TIME,
     MILITARY_TIME,
     STANDARD_TIME,
+    XML_STRPTIME,
     XML_PARSE_ERROR,
-    XML_STRPTIME_YY,
+    EMPTY_TIME,
 )
 from ..helpers import attr_from_element, value_from_xml
 from ..Nodes import NodeIterator as ProgramIterator
@@ -161,12 +161,16 @@ class Programs:
 
             if "<r>" in xml:
                 plastrun = value_from_xml(xmldoc, "r")
-                plastrun = datetime.strptime(plastrun, XML_STRPTIME_YY)
+                plastrun = datetime.strptime(
+                    plastrun, XML_STRPTIME
+                )  # TODO: Should Be military time w no slashes
                 pobj.lastRun.update(plastrun, force=True, silent=True)
 
             if "<f>" in xml:
                 plastfin = value_from_xml(xmldoc, "f")
-                plastfin = datetime.strptime(plastfin, XML_STRPTIME_YY)
+                plastfin = datetime.strptime(
+                    plastfin, XML_STRPTIME
+                )  # TODO: Should Be military time w no slashes
                 pobj.lastFinished.update(plastfin, force=True, silent=True)
 
             if "<on />" in xml or "<off />" in xml:
@@ -208,12 +212,18 @@ class Programs:
                     # last run time
                     plastrun = value_from_xml(feature, "lastRunTime", EMPTY_TIME)
                     if plastrun != EMPTY_TIME:
-                        plastrun = datetime.strptime(plastrun, "%Y/%m/%d %I:%M:%S %p")
+                        plastrun = datetime.strptime(
+                            plastrun,
+                            MILITARY_TIME if self.isy.clock.military else STANDARD_TIME,
+                        )
 
                     # last finish time
                     plastfin = value_from_xml(feature, "lastFinishTime", EMPTY_TIME)
                     if plastfin != EMPTY_TIME:
-                        plastfin = datetime.strptime(plastfin, "%Y/%m/%d %I:%M:%S %p")
+                        plastfin = datetime.strptime(
+                            plastfin,
+                            MILITARY_TIME if self.isy.clock.military else STANDARD_TIME,
+                        )
 
                     # enabled, run at startup, running
                     penabled = bool(attr_from_element(feature, "enabled") == "true")
