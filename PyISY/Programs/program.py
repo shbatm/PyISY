@@ -105,3 +105,8 @@ class Program(Folder):
                 self.running.update(prunning, force=True, silent=True)
             elif not self.isy.auto_update:
                 self._programs.update(wait_time, address=self._id)
+
+    @property
+    def protocol(self):
+        """Return the protocol for this entity."""
+        return "program"
