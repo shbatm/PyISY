@@ -215,7 +215,6 @@ class Nodes:
         if not node:
             return
 
-        node.control_events.notify(EventResult(cntrl, nval, prec, uom, formatted))
         if cntrl not in COMMAND_PROP_IGNORE:
             node._aux_properties[cntrl] = {
                 ATTR_ID: cntrl,
@@ -224,6 +223,7 @@ class Nodes:
                 ATTR_UOM: uom,
                 ATTR_FORMATTED: formatted,
             }
+        node.control_events.notify(EventResult(cntrl, nval, prec, uom, formatted))
         self.isy.log.debug("ISY Node Control Event: %s %s %s", address, cntrl, nval)
 
     def parse(self, xml):
