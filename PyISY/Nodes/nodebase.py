@@ -123,7 +123,8 @@ class NodeBase:
                 hint = self._aux_properties["OL"].get("value")
             else:
                 hint = 255
-        elif cmd in ["DOF", "DFOF"]:
+        if cmd in ["DOF", "DFOF"]:
             hint = 0
+        self.isy.log.info("ISY using hint value %s %s.", hint, self._aux_properties)
         self.update(UPDATE_INTERVAL, hint=hint)
         return True

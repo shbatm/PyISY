@@ -1,6 +1,6 @@
 """Representation of groups (scenes) from an ISY."""
-from .nodebase import NodeBase
 from ..constants import VALUE_UNKNOWN
+from .nodebase import NodeBase
 
 from VarEvents import Property
 
@@ -49,11 +49,12 @@ class Group(NodeBase):
     def __report_status__(self, new_val):
         """Report the status of the scene."""
         # first clean the status input
-        if int(self.status) > 0:
+        status = int(self.status)
+        if status > 0:
             clean_status = 255
-        elif int(self.status) <= 0:
+        elif status <= 0:
             clean_status = 0
-        if int(self.status) != clean_status:
+        if status != clean_status:
             self.status.update(clean_status, force=True, silent=True)
 
         # now update the nodes
