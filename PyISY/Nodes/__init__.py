@@ -298,7 +298,7 @@ class Nodes:
                     # the ISY MAC addrees in newer versions of
                     # ISY firmwares > 5.0.6+ ..
                     if int(flag) & 0x08:
-                        self.isy.log.info("Skipping group flag=%s %s", flag, address)
+                        self.isy.log.debug("Skipping group flag=%s %s", flag, address)
                         continue
                     mems = feature.getElementsByTagName("link")
                     # Build list of members
@@ -315,7 +315,7 @@ class Nodes:
                         Group(self, address, nname, members, controllers),
                         ntype,
                     )
-            self.isy.log.info("ISY Loaded {}".format(ntype))
+            self.isy.log.debug("ISY Loaded {}".format(ntype))
 
     def update(self, wait_time=0):
         """

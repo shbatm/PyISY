@@ -110,7 +110,7 @@ class NodeBase:
                 self._id,
             )
             return False
-        self.isy.log.info(
+        self.isy.log.debug(
             "ISY command %s sent to %s.", COMMAND_FRIENDLY_NAME.get(cmd), self._id
         )
 
@@ -125,6 +125,5 @@ class NodeBase:
                 hint = 255
         if cmd in ["DOF", "DFOF"]:
             hint = 0
-        self.isy.log.info("ISY using hint value %s %s.", hint, self._aux_properties)
         self.update(UPDATE_INTERVAL, hint=hint)
         return True
