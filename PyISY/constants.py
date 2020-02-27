@@ -143,8 +143,24 @@ COMMAND_FRIENDLY_NAME = {
     "SECMD": "secure",
     "FDUP": "fade_up",
     "FDDOWN": "fade_down",
-    "FDSTOP": "fade_stop"
+    "FDSTOP": "fade_stop",
 }
+
+COMMAND_PROP_IGNORE = [
+    "DON",
+    "DFON",
+    "DOF",
+    "DFOF",
+    "ST",
+    "BEEP",
+    "RESET",
+    "X10",
+    "BMAN",
+    "SMAN",
+    "BRT",
+    "DIM",
+    "BUSY",
+]
 
 COMMAND_NAME = {val: key for key, val in COMMAND_FRIENDLY_NAME.items()}
 

@@ -56,7 +56,6 @@ class Node(NodeBase):
         enabled=None,
     ):
         """Initialize a Node class."""
-        self._aux_properties = aux_properties if aux_properties is not None else {}
         self._devtype_cat = devtype_cat
         self._node_def_id = node_def_id
         self._type = dev_type
@@ -70,11 +69,6 @@ class Node(NodeBase):
         )
         self.controlEvents = EventEmitter()
         super().__init__(nodes, nid, name)
-
-    @property
-    def aux_properties(self):
-        """Return the aux properties that were in the Node Definition."""
-        return self._aux_properties
 
     @property
     def devtype_cat(self):
@@ -102,7 +96,7 @@ class Node(NodeBase):
         return self._uom
 
     @uom.setter
-    def uom(self,value):
+    def uom(self, value):
         """Set the unit of measurement if not provided initially."""
         self._uom = value
 
@@ -112,7 +106,7 @@ class Node(NodeBase):
         return self._prec
 
     @prec.setter
-    def prec(self,value):
+    def prec(self, value):
         """Set the unit of measurement if not provided initially."""
         self._prec = value
 
@@ -230,5 +224,5 @@ class Node(NodeBase):
     def get_setpoint_uom(self, prop):
         """Get the Unit of Measurement for Z-Wave Climate Settings."""
         if self._devtype_cat and self._aux_properties.get(prop):
-            return self._aux_properties.get(prop).get('uom')
+            return self._aux_properties.get(prop).get("uom")
         return None

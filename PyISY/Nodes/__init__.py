@@ -11,8 +11,12 @@ from ..constants import (
     ATTR_NAME,
     ATTR_NODE,
     ATTR_PREC,
+    ATTR_ID,
+    ATTR_VALUE,
     ATTR_TYPE,
     ATTR_UOM,
+    ATTR_FORMATTED,
+    COMMAND_PROP_IGNORE,
     XML_PARSE_ERROR,
 )
 from ..helpers import (
@@ -177,7 +181,8 @@ class Nodes:
         prec = attr_from_xml(xmldoc, ATTR_ACTION, ATTR_PREC, "0")
         uom = attr_from_xml(xmldoc, ATTR_ACTION, ATTR_UOM, "")
         node = self.get_by_id(nid)
-        if not node: return
+        if not node:
+            return
         # Check if UOM/PREC have changed or were not set:
         if prec and prec != node.prec:
             node.prec = prec
@@ -202,11 +207,21 @@ class Nodes:
         nval = value_from_xml(xmldoc, ATTR_ACTION, 0)
         prec = attr_from_xml(xmldoc, ATTR_ACTION, ATTR_PREC, "0")
         uom = attr_from_xml(xmldoc, ATTR_ACTION, ATTR_UOM, "")
+        formatted = attr_from_xml(xmldoc, ATTR_FORMATTED, nval)
 
         node = self.get_by_id(nid)
-        if not node: return
+        if not node:
+            return
 
-        node.controlEvents.notify(EventResult(cntrl, nval, prec, uom))
+        node.controlEvents.notify(EventResult(cntrl, nval, prec, uom, formatted))
+        if cntrl not in COMMAND_PROP_IGNORE:
+            node._aux_properties[cntrl] = {
+                ATTR_ID: cntrl,
+                ATTR_VALUE: nval,
+                ATTR_PREC: prec,
+                ATTR_UOM: uom,
+                ATTR_FORMATTED: formatted,
+            }
         self.isy.log.debug("ISY Node Control Event: %s %s %s", nid, cntrl, nval)
 
     def parse(self, xml):

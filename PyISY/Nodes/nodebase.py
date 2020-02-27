@@ -13,13 +13,14 @@ class NodeBase:
     status = Property(0)
     hasChildren = False
 
-    def __init__(self, nodes, nid, name):
+    def __init__(self, nodes, nid, name, aux_properties=None):
         """Initialize a Group class."""
         self._nodes = nodes
         self.isy = nodes.isy
         self._id = nid
         self._name = name
         self._notes = None
+        self._aux_properties = aux_properties if aux_properties is not None else {}
 
         # respond to non-silent changes in status
         self.status.reporter = self.__report_status__
@@ -27,6 +28,11 @@ class NodeBase:
     def __str__(self):
         """Return a string representation of the node."""
         return "{}({})".format(type(self).__name__, self._id)
+
+    @property
+    def aux_properties(self):
+        """Return the aux properties that were in the Node Definition."""
+        return self._aux_properties
 
     @property
     def nid(self):
@@ -111,9 +117,14 @@ class NodeBase:
         # Calculate hint to use if status is updated
         hint = self.status._val
         if cmd in ["DON", "DFON"]:
-            hint = val if val is not None else 255
+            if val is not None:
+                hint = val
+            elif "OL" in self._aux_properties:
+                hint = self._aux_properties["OL"].get("value")
+            else:
+                hint = 255
         if cmd in ["DOF", "DFOF"]:
             hint = 0
-
+        self.isy.log.info("ISY using hint value %s %s.", hint, self._aux_properties)
         self.update(UPDATE_INTERVAL, hint=hint)
         return True
