@@ -1,8 +1,8 @@
 """Representation of groups (scenes) from an ISY."""
+from VarEvents import Property
+
 from ..constants import VALUE_UNKNOWN
 from .nodebase import NodeBase
-
-from VarEvents import Property
 
 
 class Group(NodeBase):
@@ -16,7 +16,7 @@ class Group(NodeBase):
     |  controllers: List of the controllers in this group.
     |  spoken: The string of the Notes Spoken field.
 
-    :ivar hasChildren: Boolean value indicating that group has no children.
+    :ivar has_children: Boolean value indicating that group has no children.
     :ivar members: List of the members of this group.
     :ivar controllers: List of the controllers of this group.
     :ivar name: The name of this group.

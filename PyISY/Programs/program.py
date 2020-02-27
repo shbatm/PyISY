@@ -1,3 +1,4 @@
+"""ISY Programs."""
 from VarEvents import Property
 
 from ..constants import EMPTY_TIME, UPDATE_INTERVAL

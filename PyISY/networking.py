@@ -55,7 +55,7 @@ class NetworkResources:
         """
         try:
             xmldoc = minidom.parseString(xml)
-        except:
+        except (KeyError, ValueError):
             self.isy.log.error("%s: NetworkResources", XML_PARSE_ERROR)
         else:
             features = xmldoc.getElementsByTagName("NetRule")
@@ -80,7 +80,7 @@ class NetworkResources:
         xml = self.isy.conn.get_network()
         self.parse(xml)
 
-    def updateThread(self):
+    def update_threaded(self):
         """
         Continually update the class until it is told to stop.
 
@@ -94,7 +94,7 @@ class NetworkResources:
         try:
             val = int(val)
             return self.get_by_id(val)
-        except:
+        except (ValueError, KeyError):
             return self.get_by_name(val)
 
     def __setitem__(self, val, value):
@@ -110,7 +110,7 @@ class NetworkResources:
         try:
             ind = self.nids.index(val)
             return self.get_by_index(ind)
-        except:
+        except (ValueError, KeyError):
             return None
 
     def get_by_name(self, val):
@@ -122,7 +122,7 @@ class NetworkResources:
         try:
             ind = self.nnames.index(val)
             return self.get_by_index(ind)
-        except:
+        except (ValueError, KeyError):
             return None
 
     def get_by_index(self, val):

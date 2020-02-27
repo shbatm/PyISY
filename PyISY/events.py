@@ -185,17 +185,17 @@ class EventStream:
         """Subscribe to the Event Stream."""
         if not self._subscribed and self._connected:
             if "sid" not in self.data:
-                msg = self._mkmsg(strings.sub_msg)
+                msg = self._mkmsg(strings.SUB_MSG)
                 self.write(msg)
             else:
-                msg = self._mkmsg(strings.resub_msg)
+                msg = self._mkmsg(strings.RESUB_MSG)
                 self.write(msg)
             self._subscribed = True
 
     def unsubscribe(self):
         """Unsubscribe from the Event Stream."""
         if self._subscribed and self._connected:
-            msg = self._mkmsg(strings.unsub_msg)
+            msg = self._mkmsg(strings.UNSUB_MSG)
             self.write(msg)
             self._subscribed = False
             self.disconnect()

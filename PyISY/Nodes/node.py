@@ -39,7 +39,7 @@ class Node(NodeBase):
 
     :ivar status: A watched property that indicates the current status of the
                   node.
-    :ivar hasChildren: Property indicating that there are no more children.
+    :ivar has_children: Property indicating that there are no more children.
     """
 
     def __init__(
@@ -67,7 +67,7 @@ class Node(NodeBase):
         self.status.update(
             state.get(ATTR_VALUE, VALUE_UNKNOWN), force=True, silent=True
         )
-        self.controlEvents = EventEmitter()
+        self.control_events = EventEmitter()
         super().__init__(nodes, nid, name)
 
     @property
