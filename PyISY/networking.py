@@ -25,13 +25,13 @@ class NetworkResources:
 
     ATTRIBUTES:
         isy: The ISY device class
-        nids: List of net command ids
+        addresses: List of net command ids
         nnames: List of net command names
         nobjs: List of net command objects
 
     """
 
-    nids = []
+    addresses = []
     nnames = []
     nobjs = []
 
@@ -60,11 +60,11 @@ class NetworkResources:
         else:
             features = xmldoc.getElementsByTagName("NetRule")
             for feature in features:
-                nid = int(value_from_xml(feature, ATTR_ID))
-                if nid not in self.nids:
+                address = int(value_from_xml(feature, ATTR_ID))
+                if address not in self.addresses:
                     nname = value_from_xml(feature, ATTR_NAME)
-                    nobj = NetworkCommand(self, nid)
-                    self.nids.append(nid)
+                    nobj = NetworkCommand(self, address)
+                    self.addresses.append(address)
                     self.nnames.append(nname)
                     self.nobjs.append(nobj)
 
@@ -108,7 +108,7 @@ class NetworkResources:
         val: Integer representing command id
         """
         try:
-            ind = self.nids.index(val)
+            ind = self.addresses.index(val)
             return self.get_by_index(ind)
         except (ValueError, KeyError):
             return None

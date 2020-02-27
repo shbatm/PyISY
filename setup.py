@@ -8,7 +8,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="PyISY_beta",
-    version_format='{tag}.dev{commitcount}',  # Dev Versions -{gitsha}
+    version_format="{tag}.dev{commitcount}",  # Dev Versions -{gitsha}
     license="Apache License 2.0",
     url="https://github.com/automicus/PyISY",
     author="Ryan Kraus",

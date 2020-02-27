@@ -24,7 +24,7 @@ class Node(NodeBase):
     This class handles ISY nodes.
 
     |  parent: The node manager object.
-    |  nid: The Node ID.
+    |  address: The Node ID.
     |  nval: The current Node value.
     |  name: The node name.
     |  spoken: The string of the Notes Spoken field.
@@ -45,7 +45,7 @@ class Node(NodeBase):
     def __init__(
         self,
         nodes,
-        nid,
+        address,
         name,
         state,
         aux_properties=None,
@@ -60,7 +60,7 @@ class Node(NodeBase):
         self._node_def_id = node_def_id
         self._type = dev_type
         self._enabled = enabled if enabled is not None else True
-        self._parent_nid = parent_nid if parent_nid != nid else None
+        self._parent_nid = parent_nid if parent_nid != address else None
         self._uom = state.get(ATTR_UOM, "")
         self._prec = state.get(ATTR_PREC, "0")
         self._formatted = state.get(ATTR_FORMATTED, str(self.status))
@@ -68,7 +68,7 @@ class Node(NodeBase):
             state.get(ATTR_VALUE, VALUE_UNKNOWN), force=True, silent=True
         )
         self.control_events = EventEmitter()
-        super().__init__(nodes, nid, name)
+        super().__init__(nodes, address, name)
 
     @property
     def devtype_cat(self):

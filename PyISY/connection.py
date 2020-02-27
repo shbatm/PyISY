@@ -63,9 +63,7 @@ class Connection:
         """Return the connection info required to connect to the ISY."""
         connection_info = {}
         authstr = bytes("{!s}:{!s}".format(self._username, self._password), "ascii")
-        connection_info["auth"] = (
-            base64.encodebytes(authstr).strip().decode("ascii")
-        )
+        connection_info["auth"] = base64.encodebytes(authstr).strip().decode("ascii")
         connection_info["addr"] = self._address
         connection_info["port"] = int(self._port)
         connection_info["passwd"] = self._password
@@ -151,11 +149,11 @@ class Connection:
         result = self.request(req_url)
         return result
 
-    def get_programs(self, pid=None):
+    def get_programs(self, address=None):
         """Fetch the list of programs from the ISY."""
         addr = ["programs"]
-        if pid is not None:
-            addr.append(str(pid))
+        if address is not None:
+            addr.append(str(address))
         req_url = self.compile_url(addr, {"subfolders": "true"})
         result = self.request(req_url)
         return result

@@ -10,7 +10,7 @@ class Group(NodeBase):
     Interact with ISY groups (scenes).
 
     |  nodes: The node manager object.
-    |  nid: The node ID.
+    |  address: The node ID.
     |  name: The node name.
     |  members: List of the members in this group.
     |  controllers: List of the controllers in this group.
@@ -26,11 +26,11 @@ class Group(NodeBase):
 
     group_all_on = Property(False)
 
-    def __init__(self, nodes, nid, name, members=None, controllers=None):
+    def __init__(self, nodes, address, name, members=None, controllers=None):
         """Initialize a Group class."""
         self._members = members or []
         self._controllers = controllers or []
-        super().__init__(nodes, nid, name)
+        super().__init__(nodes, address, name)
 
         # listen for changes in children
         self._members_handlers = [

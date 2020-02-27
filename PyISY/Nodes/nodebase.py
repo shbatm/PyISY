@@ -13,11 +13,11 @@ class NodeBase:
     status = Property(0)
     has_children = False
 
-    def __init__(self, nodes, nid, name, aux_properties=None):
+    def __init__(self, nodes, address, name, aux_properties=None):
         """Initialize a Group class."""
         self._nodes = nodes
         self.isy = nodes.isy
-        self._id = nid
+        self._id = address
         self._name = name
         self._notes = None
         self._aux_properties = aux_properties if aux_properties is not None else {}
@@ -35,7 +35,7 @@ class NodeBase:
         return self._aux_properties
 
     @property
-    def nid(self):
+    def address(self):
         """Return the Node ID."""
         return self._id
 
