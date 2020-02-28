@@ -93,7 +93,7 @@ class NodeBase:
         """Update the group with values from the controller."""
         pass
 
-    def send_cmd(self, cmd, val=None, uom=None):
+    def send_cmd(self, cmd, val=None, uom=None, query=None):
         """Send a command to the device."""
         value = str(val) if val is not None else None
         _uom = str(uom) if uom is not None else None
@@ -102,7 +102,7 @@ class NodeBase:
             req.append(value)
         if _uom:
             req.append(_uom)
-        req_url = self.isy.conn.compile_url(req)
+        req_url = self.isy.conn.compile_url(req, query)
         if not self.isy.conn.request(req_url):
             self.isy.log.warning(
                 "ISY could not send %s command to %s.",
@@ -127,3 +127,4 @@ class NodeBase:
             hint = 0
         self.update(UPDATE_INTERVAL, hint=hint)
         return True
+
