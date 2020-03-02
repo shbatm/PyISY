@@ -67,7 +67,7 @@ class Clock:
         """
         try:
             xmldoc = minidom.parseString(xml)
-        except (AttributeError, KeyError, ValueError, TypeError):
+        except (AttributeError, KeyError, ValueError, TypeError, IndexError):
             self.isy.log.error("%s: Clock", XML_PARSE_ERROR)
         else:
             tz_offset_sec = int(value_from_xml(xmldoc, "TMZOffset"))

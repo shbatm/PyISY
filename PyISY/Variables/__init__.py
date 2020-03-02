@@ -85,7 +85,7 @@ class Variables:
         """Parse the XML Variable Definitions from the ISY."""
         try:
             xmldocs = [minidom.parseString(xml) for xml in xmls]
-        except (AttributeError, KeyError, ValueError, TypeError):
+        except (AttributeError, KeyError, ValueError, TypeError, IndexError):
             self.isy.log.error("%s: Variables", XML_PARSE_ERROR)
             return
 
@@ -100,7 +100,7 @@ class Variables:
         """Parse XML from the controller with details about the variables."""
         try:
             xmldoc = minidom.parseString(xml)
-        except (AttributeError, KeyError, ValueError, TypeError):
+        except (AttributeError, KeyError, ValueError, TypeError, IndexError):
             self.isy.log.error("%s: Variables", XML_PARSE_ERROR)
             return
 

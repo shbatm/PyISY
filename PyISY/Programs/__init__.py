@@ -182,7 +182,7 @@ class Programs:
         """
         try:
             xmldoc = minidom.parseString(xml)
-        except (AttributeError, KeyError, ValueError, TypeError):
+        except (AttributeError, KeyError, ValueError, TypeError, IndexError):
             self.isy.log.error("%s: Programs", XML_PARSE_ERROR)
         else:
             plastup = datetime.now()

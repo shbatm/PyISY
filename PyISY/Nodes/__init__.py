@@ -234,7 +234,7 @@ class Nodes:
         """
         try:
             xmldoc = minidom.parseString(xml)
-        except (AttributeError, KeyError, ValueError, TypeError):
+        except (AttributeError, KeyError, ValueError, TypeError, IndexError):
             self.isy.log.error("%s: Nodes", XML_PARSE_ERROR)
             return False
 
