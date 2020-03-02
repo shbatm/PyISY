@@ -17,7 +17,8 @@ class Configuration(dict):
         dictionary with the either module names or ids
         being used as keys and a boolean indicating
         whether the module is installed will be
-        returned.
+        returned. With the exception of 'firmware' and 'uuid',
+        which will return their respective values.
 
     PARAMETERS:
         Portal Integration - Check-it.ca
@@ -73,6 +74,10 @@ class Configuration(dict):
         xml: String of the xml data
         """
         xmldoc = minidom.parseString(xml)
+
+        self["firmware"] = value_from_xml(xmldoc, "app_full_version")
+        self["uuid"] = value_from_xml(xmldoc.getElementsByTagName("root"), ATTR_ID)
+
         features = xmldoc.getElementsByTagName("feature")
 
         for feature in features:

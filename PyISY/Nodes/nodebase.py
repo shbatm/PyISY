@@ -127,4 +127,3 @@ class NodeBase:
             hint = 0
         self.update(UPDATE_INTERVAL, hint=hint)
         return True
-
