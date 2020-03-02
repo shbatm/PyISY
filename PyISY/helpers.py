@@ -73,7 +73,7 @@ def value_from_xml(xml, tag_name, default=None):
     value = default
     try:
         value = xml.getElementsByTagName(tag_name)[0].firstChild.toxml()
-    except (IndexError, AttributeError):
+    except (AttributeError, KeyError, ValueError, TypeError):
         pass
     return value
 
@@ -84,7 +84,7 @@ def attr_from_xml(xml, tag_name, attr_name, default=None):
     try:
         root = xml.getElementsByTagName(tag_name)[0]
         value = attr_from_element(root, attr_name, default)
-    except (IndexError, AttributeError):
+    except (AttributeError, KeyError, ValueError, TypeError):
         pass
     return value
 

@@ -234,7 +234,7 @@ class Nodes:
         """
         try:
             xmldoc = minidom.parseString(xml)
-        except (KeyError, ValueError):
+        except (AttributeError, KeyError, ValueError, TypeError):
             self.isy.log.error("%s: Nodes", XML_PARSE_ERROR)
             return False
 
@@ -452,7 +452,7 @@ class Nodes:
         try:
             self.nparents.index(self.root)
             return True
-        except (IndexError, KeyError):
+        except ValueError:
             return False
 
     @property

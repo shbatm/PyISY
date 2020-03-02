@@ -55,7 +55,7 @@ class NetworkResources:
         """
         try:
             xmldoc = minidom.parseString(xml)
-        except (KeyError, ValueError):
+        except (AttributeError, KeyError, ValueError, TypeError):
             self.isy.log.error("%s: NetworkResources", XML_PARSE_ERROR)
         else:
             features = xmldoc.getElementsByTagName("NetRule")
