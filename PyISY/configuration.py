@@ -76,7 +76,15 @@ class Configuration(dict):
         xmldoc = minidom.parseString(xml)
 
         self["firmware"] = value_from_xml(xmldoc, "app_full_version")
-        self["uuid"] = value_from_xml(xmldoc.getElementsByTagName("root"), ATTR_ID)
+
+        try:
+            self["uuid"] = (
+                xmldoc.getElementsByTagName("root")[0]
+                .getElementsByTagName(ATTR_ID)[0]
+                .firstChild.toxml()
+            )
+        except IndexError:
+            self["uuid"] = None
 
         features = xmldoc.getElementsByTagName("feature")
 
