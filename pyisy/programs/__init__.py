@@ -25,7 +25,7 @@ from ..constants import (
     XML_TRUE,
 )
 from ..helpers import attr_from_element, value_from_xml
-from ..Nodes import NodeIterator as ProgramIterator
+from ..nodes import NodeIterator as ProgramIterator
 from .folder import Folder
 from .program import Program
 
@@ -36,7 +36,11 @@ class Programs:
 
     This class can be used as a dictionary
     to navigate through the controller's structure to objects of type
+<<<<<<< HEAD:PyISY/Programs/__init__.py
     :class:`~PyISY.Programs.Program` and :class:`~PyISY.Programs.Folder`
+=======
+    :class:`~PyISY.programs.Program` and :class:`~PyISY.Programs.Folder`
+>>>>>>> v2_conformance:pyisy/programs/__init__.py
     (when requested) that represent objects on the controller.
 
     |  isy: The ISY device class
