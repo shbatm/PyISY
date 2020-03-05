@@ -5,16 +5,20 @@ import socket
 import ssl
 import sys
 import xml
-from threading import Thread
+from threading import Thread, ThreadError
 from xml.dom import minidom
 
 from . import strings
 from .constants import (
     ATTR_ACTION,
     ATTR_CONTROL,
+    ATTR_ID,
+    ATTR_STREAM_ID,
+    ATTR_VAR,
     POLL_TIME,
+    PROP_STATUS,
     SOCKET_BUFFER_SIZE,
-    STATE_PROPERTY,
+    TAG_NODE,
 )
 from .helpers import attr_from_xml, value_from_xml
 
@@ -70,7 +74,7 @@ class EventStream:
         self.isy.log.debug("ISY Update Received:\n" + msg)
 
         # A wild stream id appears!
-        if "sid=" in msg and "sid" not in self.data:
+        if f"{ATTR_STREAM_ID}=" in msg and ATTR_STREAM_ID not in self.data:
             self.update_received(xmldoc)
 
         # direct the event message
@@ -81,7 +85,7 @@ class EventStream:
             self._lasthb = datetime.datetime.now()
             self._hbwait = int(value_from_xml(xmldoc, ATTR_ACTION))
             self.isy.log.debug("ISY HEARTBEAT: %s", self._lasthb.isoformat())
-        elif cntrl == STATE_PROPERTY:  # NODE UPDATE
+        elif cntrl == PROP_STATUS:  # NODE UPDATE
             self.isy.nodes.update_received(xmldoc)
         elif cntrl[0] != "_":  # NODE CONTROL EVENT
             self.isy.nodes.control_message_received(xmldoc)
@@ -89,11 +93,11 @@ class EventStream:
             if self.isy.configuration["Weather Information"]:
                 self.isy.climate.update_received(xmldoc)
         elif cntrl == "_1":  # Trigger Update
-            if "<var" in msg:  # VARIABLE
+            if f"<{ATTR_VAR}" in msg:  # VARIABLE
                 self.isy.variables.update_received(xmldoc)
-            elif "<id>" in msg:  # PROGRAM
+            elif f"<{ATTR_ID}>" in msg:  # PROGRAM
                 self.isy.programs.update_received(xmldoc)
-            elif "<node>" in msg and "[" in msg:  # Node Server Update
+            elif f"<{TAG_NODE}>" in msg and "[" in msg:  # Node Server Update
                 pass  # This is most likely a duplicate node update.
             else:  # SOMETHING HAPPENED WITH A PROGRAM FOLDER
                 # but they ISY didn't tell us what, so...
@@ -101,7 +105,7 @@ class EventStream:
 
     def update_received(self, xmldoc):
         """Set the socket ID."""
-        self.data["sid"] = attr_from_xml(xmldoc, "Event", "sid")
+        self.data[ATTR_STREAM_ID] = attr_from_xml(xmldoc, "Event", ATTR_STREAM_ID)
         self.isy.log.debug("ISY Updated Events Stream ID")
 
     @property
@@ -109,7 +113,7 @@ class EventStream:
         """Return the running state of the thread."""
         try:
             return self._thread.isAlive()
-        except:
+        except (RuntimeError, ThreadError):
             return False
 
     @running.setter
@@ -186,7 +190,7 @@ class EventStream:
     def subscribe(self):
         """Subscribe to the Event Stream."""
         if not self._subscribed and self._connected:
-            if "sid" not in self.data:
+            if ATTR_STREAM_ID not in self.data:
                 msg = self._create_message(strings.SUB_MSG)
                 self.write(msg)
             else:
@@ -201,6 +205,11 @@ class EventStream:
             self.write(msg)
             self._subscribed = False
             self.disconnect()
+
+    @property
+    def connected(self):
+        """Return if the module is connnected to the ISY or not."""
+        return self._connected
 
     @property
     def heartbeat_time(self):
