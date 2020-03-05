@@ -14,6 +14,7 @@ from .constants import (
     PROP_RAMP_RATE,
     PROP_STATUS,
     TAG_PROPERTY,
+    UOM_SECONDS,
     VALUE_UNKNOWN,
 )
 
@@ -67,6 +68,7 @@ def parse_xml_properties(xmldoc):
             state = result
         elif prop_id == PROP_RAMP_RATE:
             result[ATTR_VALUE] = INSTEON_RAMP_RATES.get(val, val)
+            result[ATTR_UNIT_OF_MEASURE] = UOM_SECONDS
         else:
             aux_props[prop_id] = result
 
