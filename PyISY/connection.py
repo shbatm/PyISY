@@ -1,4 +1,3 @@
-    def __init__(self, isy, address, port, username, password, use_https, tls_ver):
 """Connection to the ISY."""
 try:
     # python 2.7
