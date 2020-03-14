@@ -189,7 +189,7 @@ class NodeProperty(dict):
     __repr__ = f"NodeProperty({__str__})"
 
     def __getattr__(self, name):
-        """Retreive the properties."""
+        """Retrieve the properties."""
         return self[name]
 
     def __setattr__(self, name, value):
