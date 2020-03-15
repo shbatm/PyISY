@@ -8,6 +8,7 @@ from .configuration import Configuration
 from .connection import Connection
 from .constants import CMD_X10, X10_COMMANDS
 from .events import EventStream
+from .helpers import NullHandler
 from .nodes import Nodes
 from .programs import Programs
 from .variables import Variables
@@ -62,7 +63,7 @@ class ISY:
 
         try:
             self.conn = Connection(
-                self, address, port, username, password, use_https, tls_ver
+                address, port, username, password, use_https, tls_ver, self.log
             )
         except ValueError as err:
             self._connected = False
@@ -176,11 +177,3 @@ class ISY:
                 self.log.error(
                     "ISY Failed to send X10 Command: %s To: %s", cmd, address
                 )
-
-
-class NullHandler(logging.Handler):
-    """NullHandler Logging Class Override."""
-
-    def emit(self, record):
-        """Override the Emit function."""
-        pass
