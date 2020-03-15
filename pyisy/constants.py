@@ -77,6 +77,7 @@ TAG_FEATURE = "feature"
 TAG_FIRMWARE = "app_full_version"
 TAG_FOLDER = "folder"
 TAG_FORMATTED = "fmtAct"
+TAG_GENERIC = "gen"
 TAG_GROUP = "group"
 TAG_INSTALLED = "isInstalled"
 TAG_LATITUDE = "Lat"
@@ -678,7 +679,7 @@ THERMOSTAT_ZWAVE_CAT = ["140"]
 
 # Referenced from ISY-WSDK 4_fam.xml
 # Included for user translations in external modules.
-# This is the Node.devtype_cat property.
+# This is the Node.zwave_props.category property.
 DEVTYPE_CATEGORIES = {
     "0": "uninitialized",
     "101": "unknown",
