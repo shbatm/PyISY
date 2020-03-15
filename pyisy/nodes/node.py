@@ -61,6 +61,7 @@ class Node(NodeBase):
         state,
         aux_properties=None,
         devtype_cat=None,
+        devtype_mfg=None,
         node_def_id=None,
         pnode=None,
         device_type=None,
@@ -71,6 +72,7 @@ class Node(NodeBase):
     ):
         """Initialize a Node class."""
         self._devtype_cat = devtype_cat
+        self._devtype_mfg = devtype_mfg
         self._node_def_id = node_def_id
         self._type = device_type
         self._enabled = enabled if enabled is not None else True
@@ -105,6 +107,11 @@ class Node(NodeBase):
     def devtype_cat(self):
         """Return the device type category (used for Z-Wave devices)."""
         return self._devtype_cat
+
+    @property
+    def manufacturer(self):
+        """Return the device OEM string (used for Z-Wave devices)."""
+        return self._devtype_mfg
 
     @property
     def node_def_id(self):

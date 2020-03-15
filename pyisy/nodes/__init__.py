@@ -26,6 +26,7 @@ from ..constants import (
     TAG_FORMATTED,
     TAG_GROUP,
     TAG_LINK,
+    TAG_MFG,
     TAG_NAME,
     TAG_NODE,
     TAG_PARENT,
@@ -277,12 +278,16 @@ class Nodes:
                 # Assume Insteon, update as confirmed otherwise
                 protocol = PROTO_INSTEON
                 devtype_cat = None
+                devtype_mfg = None
                 node_server = None
                 if family is not None:
                     if family == "4":
                         protocol = PROTO_ZWAVE
                         devtype_cat = value_from_nested_xml(
                             feature, [TAG_DEVICE_TYPE, TAG_CATEGORY]
+                        )
+                        devtype_mfg = value_from_nested_xml(
+                            feature, [TAG_DEVICE_TYPE, TAG_MFG]
                         )
                     elif family in ("3", "8"):
                         protocol = PROTO_ZIGBEE
@@ -311,6 +316,7 @@ class Nodes:
                             state=state,
                             aux_properties=aux_props,
                             devtype_cat=devtype_cat,
+                            devtype_mfg=devtype_mfg,
                             node_def_id=node_def_id,
                             pnode=pnode,
                             device_type=device_type,
