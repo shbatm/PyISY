@@ -163,7 +163,10 @@ class Node(NodeBase):
         dimmable = (
             "%" in str(self._uom)
             or (isinstance(self._type, str) and self._type.startswith("1."))
-            or (self._devtype_cat is not None and self._devtype_cat in ["109", "119"])
+            or (
+                self._devtype_cat is not None
+                and self._devtype_cat in ["109", "119", "186"]
+            )
         )
         return dimmable
 
