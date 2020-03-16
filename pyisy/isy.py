@@ -75,7 +75,7 @@ class ISY:
         else:
             self._hostname = address
             self._connected = True
-            self.configuration = Configuration(self, xml=self.conn.get_config())
+            self.configuration = Configuration(self.log, xml=self.conn.get_config())
             self.clock = Clock(self, xml=self.conn.get_time())
             self.nodes = Nodes(self, xml=self.conn.get_nodes())
             self.programs = Programs(self, xml=self.conn.get_programs())
