@@ -45,98 +45,90 @@ class ZWaveProperties(dict):
 
     def __init__(self, xml=None):
         """Initialize an control result or aux property."""
-        self._category = None
-        self._devtype_mfg = None
-        self._devtype_gen = None
+        category = None
+        devtype_mfg = None
+        devtype_gen = None
+        basic_type = 0
+        generic_type = 0
+        specific_type = 0
+        mfr_id = 0
+        prod_type_id = 0
+        product_id = 0
         self._raw = ""
-        self._basic_type = 0
-        self._generic_type = 0
-        self._specific_type = 0
-        self._mfr_id = 0
-        self._prod_type_id = 0
-        self._product_id = 0
 
         if xml:
-            self._category = value_from_xml(xml, TAG_CATEGORY)
-            self._devtype_mfg = value_from_xml(xml, TAG_MFG)
-            self._devtype_gen = value_from_xml(xml, TAG_GENERIC)
+            category = value_from_xml(xml, TAG_CATEGORY)
+            devtype_mfg = value_from_xml(xml, TAG_MFG)
+            devtype_gen = value_from_xml(xml, TAG_GENERIC)
             self._raw = xml.toxml()
-        if self._devtype_gen:
-            (
-                self._basic_type,
-                self._generic_type,
-                self._specific_type,
-            ) = self._devtype_gen.split(".")
-        if self._devtype_mfg:
-            (
-                self._mfr_id,
-                self._prod_type_id,
-                self._product_id,
-            ) = self._devtype_mfg.split(".")
+        if devtype_gen:
+            (basic_type, generic_type, specific_type) = devtype_gen.split(".")
+        if devtype_mfg:
+            (mfr_id, prod_type_id, product_id) = devtype_mfg.split(".")
 
         super().__init__(
             self,
-            category=self._category,
-            devtype_mfg=self._devtype_mfg,
-            devtype_gen=self._devtype_gen,
-            basic_type=self._basic_type,
-            generic_type=self._generic_type,
-            specific_type=self._specific_type,
-            mfr_id=self._mfr_id,
-            prod_type_id=self._prod_type_id,
-            product_id=self._product_id,
+            category=category,
+            devtype_mfg=devtype_mfg,
+            devtype_gen=devtype_gen,
+            basic_type=basic_type,
+            generic_type=generic_type,
+            specific_type=specific_type,
+            mfr_id=mfr_id,
+            prod_type_id=prod_type_id,
+            product_id=product_id,
         )
 
     @property
     def category(self):
         """Return the ISY Z-Wave Category Property."""
-        return self._category
+        return self["category"]
 
     @property
     def devtype_mfg(self):
         """Return the Full Devtype Mfg Z-Wave Property String."""
-        return self._devtype_mfg
+        return self["devtype_mfg"]
 
     @property
     def devtype_gen(self):
         """Return the Full Devtype Generic Z-Wave Property String."""
-        return self._devtype_gen
+        return self["devtype_gen"]
 
     @property
     def basic_type(self):
         """Return the Z-Wave basic type Property."""
-        return self._basic_type
+        return self["basic_type"]
 
     @property
     def generic_type(self):
         """Return the Z-Wave generic type Property."""
-        return self._generic_type
+        return self["generic_type"]
 
     @property
     def specific_type(self):
         """Return the Z-Wave specific type Property."""
-        return self._specific_type
+        return self["specific_type"]
 
     @property
     def mfr_id(self):
         """Return the Z-Wave Manufacterer ID Property."""
-        return self._mfr_id
+        return self["mfr_id"]
 
     @property
     def prod_type_id(self):
         """Return the Z-Wave Product Type ID Property."""
-        return self._prod_type_id
+        return self["prod_type_id"]
 
     @property
     def product_id(self):
         """Return the Z-Wave Product ID Property."""
-        return self._product_id
+        return self["product_id"]
 
     def __str__(self):
         """Return just the original raw xml string from the ISY."""
-        return self._raw
+        return f"ZWaveProperties({self._raw})"
 
-    __repr__ = f"ZWaveProperties({__str__})"
+    __repr__ = __str__
 
     def __getattr__(self, name):
         """Retrieve the properties."""
