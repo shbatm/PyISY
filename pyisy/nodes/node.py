@@ -4,7 +4,7 @@ from xml.dom import minidom
 
 from ..constants import (
     CLIMATE_SETPOINT_MIN_GAP,
-    CMD_CLIMATE_FAN_SPEED,
+    CMD_CLIMATE_FAN_SETTING,
     CMD_CLIMATE_MODE,
     CMD_MANUAL_DIM_BEGIN,
     CMD_MANUAL_DIM_STOP,
@@ -18,7 +18,7 @@ from ..constants import (
     THERMOSTAT_TYPES,
     THERMOSTAT_ZWAVE_CAT,
     UOM_CLIMATE_MODES,
-    UOM_FAN_SPEEDS,
+    UOM_FAN_MODES,
     UOM_TO_STATES,
     URL_NODES,
     XML_PARSE_ERROR,
@@ -314,11 +314,11 @@ class Node(NodeBase):
             PROP_SETPOINT_COOL, str(val), self.get_property_uom(PROP_SETPOINT_COOL)
         )
 
-    def set_fan_speed(self, cmd):
-        """Send a command to the device to set the fan speed."""
-        cmd_value = self.get_command_value(UOM_FAN_SPEEDS, cmd)
+    def set_fan_mode(self, cmd):
+        """Send a command to the device to set the fan mode setting."""
+        cmd_value = self.get_command_value(UOM_FAN_MODES, cmd)
         if cmd_value:
-            return self.send_cmd(CMD_CLIMATE_FAN_SPEED, cmd_value)
+            return self.send_cmd(CMD_CLIMATE_FAN_SETTING, cmd_value)
         return False
 
     def set_climate_mode(self, cmd):
