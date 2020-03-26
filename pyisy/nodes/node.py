@@ -1,4 +1,5 @@
 """Representation of a node from an ISY."""
+from math import isnan
 from time import sleep
 from xml.dom import minidom
 
@@ -10,6 +11,8 @@ from ..constants import (
     CMD_MANUAL_DIM_STOP,
     CMD_SECURE,
     METHOD_GET,
+    PROP_ON_LEVEL,
+    PROP_RAMP_RATE,
     PROP_SETPOINT_COOL,
     PROP_SETPOINT_HEAT,
     PROP_STATUS,
@@ -270,6 +273,26 @@ class Node(NodeBase):
     def stop_manual_dimming(self):
         """Stop manually dimming  a device."""
         return self.send_cmd(CMD_MANUAL_DIM_STOP)
+
+    def set_on_level(self, val):
+        """Set the ON Level for a device."""
+        if not val or not isnan(val) or int(val) not in range(256):
+            self.isy.log.warning(
+                "Invalid value for On Level for %s. Valid values are 0-255.", self._id
+            )
+            return False
+        return self.send_cmd(PROP_ON_LEVEL, str(val))
+
+    def set_ramp_rate(self, val):
+        """Set the Ramp Rate for a device."""
+        if not val or not isnan(val) or int(val) not in range(32):
+            self.isy.log.warning(
+                "Invalid value for Ramp Rate for %s. "
+                "Valid values are 0-31. See 'INSTEON_RAMP_RATES' in constants.py for values.",
+                self._id,
+            )
+            return False
+        return self.send_cmd(PROP_RAMP_RATE, str(val))
 
     def set_climate_setpoint(self, val):
         """Send a command to the device to set the system setpoints."""
