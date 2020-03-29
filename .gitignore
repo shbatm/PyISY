@@ -61,6 +61,3 @@ docs/_build/
 # PyBuilder
 target/
 .AppleDouble
-
-# PyCharm
-.idea/
